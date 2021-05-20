@@ -11,8 +11,6 @@ const session = require("client-sessions");
 var logger = require("morgan");
 var cors = require("cors");
 
-process.env.COOKIE_SECRET = 'blargadeeblargblarg';
-
 var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
