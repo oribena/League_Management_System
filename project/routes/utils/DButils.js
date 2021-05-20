@@ -1,16 +1,11 @@
-// require("dotenv").config();
-require("dotenv").config({path: __dirname+ `/../../.env` });
+require("dotenv").config({path: __dirname + '/../../.env' });
 const sql = require("mssql");
 
 const config = {
-  user: 'mor',
-  password: 'M123456789O!',
-  server: 'serverorimor.database.windows.net',
-  database: 'Soccer_DB',
-  // user: process.env.tedious_userName,
-  // password: process.env.tedious_password,
-  // server: process.env.tedious_server,
-  // database: process.env.tedious_database,
+  user: process.env.tedious_userName,
+  password: process.env.tedious_password,
+  server: process.env.tedious_server,
+  database: process.env.tedious_database,
   options: {
     encrypt: true,
     enableArithAbort: true

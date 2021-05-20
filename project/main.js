@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 app.use(express.static("dist"));
 
 app.get("/api", (req, res) => {
+  console.log('here')
+  console.log(__dirname)
   res.sendFile(__dirname + "/index.html");
 });
 
@@ -51,6 +53,7 @@ const auth = require("./routes/auth");
 const users = require("./routes/users");
 const league = require("./routes/league");
 const teams = require("./routes/teams");
+const { log } = require("console");
 
 //#endregion
 
