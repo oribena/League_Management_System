@@ -1,11 +1,15 @@
 openapi: 3.0.0
 info:
   title: api
-  description: API for  project
+  description: API for a league management system
   version: 1.0.0
+  contact:
+    name: Ori Ben-Artzy and Mor Zweig
 tags:
   - name: Users
+    description: Operations available to users
   - name: Auth
+    description: authentication
   - name: League
   - name: Players
   - name: Teams
@@ -15,8 +19,8 @@ paths:
     post:
       tags:
         - Auth
-      summary: Add new user
-      description: A new user from the client is added to the server
+      summary: A new user from the client is added to the server
+      description: A JSON object contains all the details about the user.
       requestBody:
         required: true
         content:
@@ -32,8 +36,8 @@ paths:
     post:
       tags:
         - Auth
-      summary: Login an exist user
-      description: An exist user login to the system
+      summary: Logs user into the system
+      description: Exist user login
       requestBody:
         required: true
         content:
@@ -58,18 +62,20 @@ paths:
     post:
       tags:
         - Auth
-      summary: logout a user from the system and delete his cookie
+      summary: Logs out current logged in user session
+      description: Logs out user
       responses:
         "200":
           description: "the user has ben successfully logged out"
   /league/getDetails:
     get:
       tags:
-        - league
-      summary: Return the details about the current league
+        - League
+      summary: League's details
+      description: Get relevant data from server
       responses:
         "200":
-          description: data about the current league returned
+          description: Succesful pull data required
           content:
             application/json:
               schema:
@@ -84,7 +90,7 @@ paths:
         - Users
         - Players
       summary: Return the favorite players that were saved by user
-      parameters:
+      parameters: []
       responses:
         "200":
           description: data about the user's favorites players returned
@@ -142,45 +148,45 @@ components:
   schemas:
     User:
       type: object
+      description: Model containing user info
       properties:
         username:
+          type: string
           maxLength: 8
           minLength: 3
-          type: string
           description: username conatins between 3 to 8 letters only
-          example: ladygaga
+          example: jlo
         firstname:
           type: string
-          description: user's first name
-          example: Stefani
+          description: User first name
+          example: Jennifer
         lastname:
           type: string
-          description: user's last name
-          example: Germanotta
+          description: User last name
+          example: Lopez
         country:
           type: string
-          description: user's country
-          example: USA
+          description: User's country
+          example: Puerto Rico
         password:
-          maxLength: 10
-          minLength: 5
           type: string
+          minLength: 5
+          maxLength: 10
+          format: password
           description:
             password conatins between 5 to 10 chars, at least one of them
-            is a number and a special char
-          format: password
-          example: lady@56
+            is a number and a special char.
+          example: I<3JLO
         email:
           pattern: email
           type: string
           description: user's email
-          example: ladygaga@gmail.com
-        image-url:
+          example: jlo@post.bgu.ac.il
+        profilePic:
           pattern: URL
           type: string
           description: URL for the user's image
-          example: https://cloudinary.com/
-      description: Model containing user info
+          example: https://cloudinary.com/JLO
     LoginScheme:
       type: object
       properties:
@@ -189,36 +195,42 @@ components:
           minLength: 3
           maxLength: 8
           description: username conatins letters only
-          example: naorbe
+          example: JLO
         password:
           type: string
           minLength: 5
           maxLength: 10
           format: password
-          description: password conatins at least one number and one special char
-          example: naor@55
+          description: password conatins at least one number and one special char.
+          example: I<3JLO
     League:
       type: object
+      description: League's details
       properties:
         league_name:
           type: string
-          description: league name
+          description: Current league name
           example: Superliga
         current_season_name:
           type: string
-          description: current season name
+          description: Current season name
           example: "2020/2021"
         current_stage_name:
           type: string
-          description: current stage name
+          description: Current stage name
           example: Championship Round
     PlayerPreview:
       type: object
+      description: Deatails of player
       properties:
         name:
           type: string
           description: player's name
-          example: Sten Michael Grytebust
+          example: Mor Zweiz
+        team_name:
+          type: string
+          description: player's team name
+          example: barca
         image:
           type: string
           description: player's image
@@ -226,21 +238,17 @@ components:
           example: https://cdn.sportmonks.com/images/soccer/players/11/84587.png
         position:
           type: integer
-          description: player's position in team
-          example: 1
-        team_name:
-          type: string
-          description: player's team name
-          example: København
+          description: player's position number
+          example: 5
     Team:
       type: object
+      description: Deatails of team
       properties:
         name:
           type: string
-          description: team name
-          example: København
+          description: Team's name
+          example: Adumot
         players:
           type: array
           items:
-            type: object
             $ref: "#/components/schemas/PlayerPreview"

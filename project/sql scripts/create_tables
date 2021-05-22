@@ -1,5 +1,11 @@
+DROP TABLE [dbo].[users]
 CREATE TABLE [dbo].[users](
 	[user_id] [int] IDENTITY(1,1) NOT NULL,
 	[username] [varchar](30) NOT NULL UNIQUE,
-	[password] [varchar](300) NOT NULL
+	[password] [varchar](300) NOT NULL,
+	[firstname] [varchar](300) ,
+	[lastname] [varchar](300) ,
+	[country] [varchar](300) ,
+	[email] [varchar](300) ,
+	[profilePic] [varchar](300) 
 )
