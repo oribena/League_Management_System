@@ -144,6 +144,28 @@ paths:
                 $ref: "#/components/schemas/Team"
         "404":
           description: teamId is not exists
+  /players/playerFullDetails/{playerId}:
+    get:
+      summary: get full deatils about a player
+      description: useful for player page
+      tags:
+        - Players
+      parameters:
+        - in: path
+          name: playerId
+          description: player's id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: data about the player
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Player"
+        "404":
+          description: playerId is not exists
 components:
   schemas:
     User:
@@ -252,3 +274,31 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PlayerPreview"
+    Player:
+      type: object
+      description: Deatails of player
+      properties:
+        commonname:
+          type: string
+          description: player's common name
+          example: MorZ
+        nationality:
+          type: string
+          description: player's nationality
+          example: Israeli
+        birthdate:
+          type: string
+          description: player's birthdate
+          example: 10/03/1993
+        birthplace:
+          type: string
+          description: player's birth place
+          example: Tel-Aviv
+        height:
+          type: string
+          description: player's height
+          example: 175 cm
+        weight:
+          type: string
+          description: player's weight
+          example: 50 kg
