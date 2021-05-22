@@ -13,7 +13,7 @@ tags:
   - name: League
   - name: Players
   - name: Teams
-  - name: Games
+  - name: Match
 paths:
   /Register:
     post:
@@ -67,6 +67,23 @@ paths:
       responses:
         "200":
           description: "the user has ben successfully logged out"
+  /league/addMatch:
+    post:
+      tags:
+        - Match
+      summary: Add new match to DB
+      description: Match details about the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Match"
+      responses:
+        "201":
+          description: A new match has been added
+        "400":
+          description: wrong input parameters
   /league/getDetails:
     get:
       tags:
@@ -166,6 +183,28 @@ paths:
                 $ref: "#/components/schemas/Player"
         "404":
           description: playerId is not exists
+  /teams/searchTeam/{teamName}:
+    get:
+      summary: get search res deatils about a team
+      description: deatils about a team
+      tags:
+        - Teams
+      parameters:
+        - in: path
+          name: teamName
+          description: team's name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: data about the teeam
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamSearch"
+        "404":
+          description: Team name is not exists
 components:
   schemas:
     User:
@@ -225,6 +264,38 @@ components:
           format: password
           description: password conatins at least one number and one special char.
           example: I<3JLO
+    Match:
+      type: object
+      description: Model containing match info
+      properties:
+        date:
+          type: string
+          description: Match date
+          example: 20/10/2021
+        time:
+          type: string
+          description: Match time
+          example: 20:00
+        hometeam:
+          type: string
+          description: Match home team
+          example: Barca
+        awayteam:
+          type: string
+          description: Match away team
+          example: Real Madrid
+        stadium:
+          type: string
+          description: Match stadium
+          example: Santiago Bernabéu
+        result:
+          type: string
+          description: Match result
+          example: 2-0
+        referee:
+          type: string
+          description: Match referee
+          example: Ori
     League:
       type: object
       description: League's details
@@ -302,3 +373,15 @@ components:
           type: string
           description: player's weight
           example: 50 kg
+    TeamSearch:
+      type: object
+      description: Deatails of team
+      properties:
+        team_name:
+          type: string
+          description: team's name
+          example: Barca
+        team_logo:
+          type: string
+          description: team's logo path
+          example: https://cdn.sportmonks.com/images//soccer/teams/11/939.png
