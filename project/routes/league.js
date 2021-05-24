@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const league_utils = require("./utils/league_utils");
 const DButils = require("../routes/utils/DButils");
+const { Time } = require("mssql");
 
 router.get("/getDetails", async (req, res, next) => {
   try {
@@ -11,6 +12,25 @@ router.get("/getDetails", async (req, res, next) => {
     next(error);
   }
 });
+
+router.use("/addMatch", function(req, res, next) {
+  DButils.execQuery("SELECT user_id FROM users")
+  .then((users) => {
+
+    if (users.find((x) => x.user_id === req.session.user_id)) {
+          DButils.execQuery(`SELECT permission FROM users WHERE user_id = '${req.session.user_id}'`)
+          .then((permission) => {
+            if (permission[0]["permission"] != 3) {
+              res.sendStatus(401)
+            }
+            else {next();}
+            })
+          .catch();
+    }
+  })
+  .catch();
+});
+
 
 router.post("/addMatch", async (req, res, next) => {
   try {
@@ -24,7 +44,7 @@ router.post("/addMatch", async (req, res, next) => {
   }
 });
 
-// get match_id from user 
+// get match_id from user ??
 router.post("/addEvent", async (req, res, next) => {
   try {
     // add the new match

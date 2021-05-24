@@ -287,6 +287,10 @@ components:
           type: string
           description: URL for the user's image
           example: https://cloudinary.com/JLO
+        premission:
+          type: integer
+          description: num of permission
+          example: 1
     LoginScheme:
       type: object
       properties:

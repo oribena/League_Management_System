@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
 router.post("/Register", async (req, res, next) => {
   try {
-    console.log(req.body)
     
     const {
       username,
@@ -33,10 +32,10 @@ router.post("/Register", async (req, res, next) => {
       parseInt(process.env.bcrypt_saltRounds)
     );
     req.body.password = hash_password;
-    
+        
     // add the new username
     await DButils.execQuery(
-      `INSERT INTO dbo.users (username, firstname, lastname, country, password, email, profilePic) VALUES ('${req.body.username}','${req.body.firstname}','${req.body.lastname}','${req.body.country}', '${hash_password}','${req.body.email}','${req.body.profilePic}')`
+      `INSERT INTO dbo.users (username, firstname, lastname, country, password, email, profilePic, permission) VALUES ('${req.body.username}','${req.body.firstname}','${req.body.lastname}','${req.body.country}', '${hash_password}','${req.body.email}','${req.body.profilePic}','${req.body.permission}')`
     );
     // await DButils.execQuery(
     //   `INSERT INTO dbo.users (username, password) VALUES ('${req.body.username}', '${hash_password}')`
