@@ -1,17 +1,17 @@
 const DButils = require("./DButils");
 
-async function markPlayerAsFavorite(user_id, player_id) {
+async function markMatchAsFavorite(user_id, match_id) {
   await DButils.execQuery(
-    `insert into FavoritePlayers values ('${user_id}',${player_id})`
+    `INSERT INTO dbo.favorits (user_id,match_id) VALUES ('${user_id}','${match_id}')`
   );
 }
 
-async function getFavoritePlayers(user_id) {
-  const player_ids = await DButils.execQuery(
-    `select player_id from FavoritePlayers where user_id='${user_id}'`
+async function getFavoriteMatches(user_id) {
+  const matches_ids = await DButils.execQuery(
+    `SELECT match_id FROM dbo.favorits where user_id = '${user_id}'`
   );
-  return player_ids;
+  return matches_ids;
 }
 
-exports.markPlayerAsFavorite = markPlayerAsFavorite;
-exports.getFavoritePlayers = getFavoritePlayers;
+exports.markMatchAsFavorite = markMatchAsFavorite;
+exports.getFavoriteMatches = getFavoriteMatches;

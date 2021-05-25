@@ -49,7 +49,7 @@ router.post("/addEvent", async (req, res, next) => {
   try {
     // add the new match
     await DButils.execQuery(
-      `INSERT INTO dbo.eventbook (date, time, gamemin, event) VALUES ('${req.body.date}','${req.body.time}','${req.body.gamemin}','${req.body.event}')`
+      `INSERT INTO dbo.eventbook (match_id, date, time, gamemin, event) VALUES ('${req.body.match_id}','${req.body.date}','${req.body.time}','${req.body.gamemin}','${req.body.event}')`
     );
     res.status(201).send("Event created");
   } catch (error) {

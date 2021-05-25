@@ -118,42 +118,42 @@ paths:
                   $ref: "#/components/schemas/League"
         "400":
           description: wrong input parameters
-  /users/favoritePlayers:
+  /users/favoritematches:
     get:
       tags:
         - Users
-        - Players
-      summary: Return the favorite players that were saved by user
+        - Matches
+      summary: Return the favorite matches that were saved by user
       parameters: []
       responses:
         "200":
-          description: data about the user's favorites players returned
+          description: data about the user's favorites matches returned
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PlayerPreview"
+                  $ref: "#/components/schemas/FutureMatch"
         "401":
           description: user is not authorized
     post:
-      summary: save player in the favorites list of a user
+      summary: save matche in the favorites list of a user
       tags:
         - Users
-        - Players
+        - Matches
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                playerId:
+                matchId:
                   type: string
-                  description: player's id which the user saved
+                  description: matches's id which the user saved
                   example: 85
       responses:
         "201":
-          description: The player successfully saved as favorite
+          description: The matche successfully saved as favorite
         "401":
           description: user is not authorized
   /teams/teamFullDetails/{teamId}:
@@ -244,6 +244,36 @@ paths:
                 $ref: "#/components/schemas/TeamSearch"
         "404":
           description: Team name is not exists
+  /matches/futureGames:
+    get:
+      summary: All future Games from DB
+      description: Future Games Details
+      tags:
+        - Matches
+      responses:
+        "200":
+          description: Data about the future Games
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FutureMatch"
+        "404":
+          description: Future Games is not exists
+  /matches/pastGames:
+    get:
+      summary: All past Games from DB
+      description: Past Games Details
+      tags:
+        - Matches
+      responses:
+        "200":
+          description: Data about the past Games
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PastMatch"
+        "404":
+          description: Past Games is not exists
 components:
   schemas:
     User:
@@ -339,6 +369,58 @@ components:
           type: string
           description: Match referee
           example: Ori
+    FutureMatch:
+      type: object
+      description: Model containing future match info
+      properties:
+        date:
+          type: string
+          description: Match date
+          example: 20/10/2021
+        time:
+          type: string
+          description: Match time
+          example: 20:00
+        hometeam:
+          type: string
+          description: Match home team
+          example: Barca
+        awayteam:
+          type: string
+          description: Match away team
+          example: Real Madrid
+        stadium:
+          type: string
+          description: Match stadium
+          example: Santiago Bernabéu
+    PastMatch:
+      type: object
+      description: Model containing past match info
+      properties:
+        date:
+          type: string
+          description: Match date
+          example: 20/10/2021
+        time:
+          type: string
+          description: Match time
+          example: 20:00
+        hometeam:
+          type: string
+          description: Match home team
+          example: Barca
+        awayteam:
+          type: string
+          description: Match away team
+          example: Real Madrid
+        stadium:
+          type: string
+          description: Match stadium
+          example: Santiago Bernabéu
+        result:
+          type: string
+          description: Match result
+          example: 2-0
     Event:
       type: object
       description: Model containing event info
@@ -359,6 +441,7 @@ components:
           type: string
           description: Type of event
           example: Foul
+    
     League:
       type: object
       description: League's details
