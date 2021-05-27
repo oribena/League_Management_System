@@ -169,6 +169,23 @@ paths:
                   $ref: "#/components/schemas/League"
         "400":
           description: wrong input parameters
+  /league/createLeague:
+    get:
+      tags:
+        - League
+      summary: Create league
+      description: Create league and set policy
+      responses:
+        "200":
+          description: Succesful created league
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewLeague"
+        "400":
+          description: wrong input parameters
   /users/favoritematches:
     get:
       tags:
@@ -543,7 +560,6 @@ components:
           type: string
           description: Type of event
           example: Foul
-
     League:
       type: object
       description: League's details
@@ -560,6 +576,22 @@ components:
           type: string
           description: Current stage name
           example: Championship Round
+    NewLeague:
+      type: object
+      description: League's details
+      properties:
+        name:
+          type: string
+          description: Current league name
+          example: Superliga
+        policy:
+          type: integer
+          description: Current league policy
+          example: 1
+        team_assign:
+          type: string
+          description: Current league assign matches
+          example: mor vs. ori at terner
     PlayerPreview:
       type: object
       description: Deatails of player
