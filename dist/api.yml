@@ -55,7 +55,7 @@ paths:
           #     schema:
           #       type: string
           #       example: session=87s97sdhgf279293f8w0e9
-            # Note that the Set-Cookie header and securitySchemes are not connected in any way, and the Set-Header definition is for documentation purposes only.
+          # Note that the Set-Cookie header and securitySchemes are not connected in any way, and the Set-Header definition is for documentation purposes only.
         "401":
           description: Authentication failed
   /logout:
@@ -99,6 +99,40 @@ paths:
       responses:
         "201":
           description: A new event has been added
+        "400":
+          description: wrong input parameters
+  /league/addResult:
+    post:
+      tags:
+        - Match
+      summary: Add new result to Match
+      description: New result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Result"
+      responses:
+        "201":
+          description: A new result has been added
+        "400":
+          description: wrong input parameters
+  /league/addReferee:
+    post:
+      tags:
+        - Match
+      summary: Add new referee to Match
+      description: New referee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Referee"
+      responses:
+        "201":
+          description: A new referee has been added
         "400":
           description: wrong input parameters
   /league/getDetails:
@@ -274,6 +308,21 @@ paths:
                 $ref: "#/components/schemas/PastMatch"
         "404":
           description: Past Games is not exists
+  /matches/nextGame:
+    get:
+      summary: Get next Game from DB
+      description: Next Game Details
+      tags:
+        - Matches
+      responses:
+        "200":
+          description: Data about the next Game
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FutureMatch"
+        "404":
+          description: Next Game is not exists
 components:
   schemas:
     User:
@@ -421,6 +470,30 @@ components:
           type: string
           description: Match result
           example: 2-0
+    Result:
+      type: object
+      description: Model containing result info
+      properties:
+        match_id:
+          type: integer
+          description: Match id
+          example: 3
+        result:
+          type: string
+          description: Match result
+          example: 2-0
+    Referee:
+      type: object
+      description: Model containing referee info
+      properties:
+        match_id:
+          type: integer
+          description: Match id
+          example: 3
+        referee_id:
+          type: integer
+          description: Match referee id
+          example: 2
     Event:
       type: object
       description: Model containing event info
@@ -441,7 +514,7 @@ components:
           type: string
           description: Type of event
           example: Foul
-    
+
     League:
       type: object
       description: League's details

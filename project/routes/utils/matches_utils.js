@@ -123,16 +123,6 @@ function extractPastGamesData(past_info) {
     // .catch();
     const eventsFromDB = test(game["match_id"]);
 
-    // let res = {
-    //     date: date,
-    //     time: time,
-    //     hometeam: hometeam,
-    //     awayteam: awayteam,
-    //     stadium: stadium,
-    //     result: result,
-    //     event: events
-    //     };
-
     return {
       date: date,
       time: time,
@@ -144,6 +134,52 @@ function extractPastGamesData(past_info) {
   });
 }
 
+// Handel next game
+function getNextGame(games) {
+  let next = games[0];
+
+  games.forEach((temp) => {
+    let next_date_list = next["date"].split("/"); // Date of next match
+    let dd = next_date_list[0];
+    let mm = next_date_list[1];
+    let yyyy = next_date_list[2];
+    let next_time_list = next["time"].split(":"); // Time of next match
+    let hours = next_time_list[0];
+    let minute = next_time_list[1];
+    /////////////////////////////////////////
+    let date_list = temp["date"].split("/"); // Date of curr match
+    let dd2 = date_list[0];
+    let mm2 = date_list[1];
+    let yyyy2 = date_list[2];
+    let time_list = temp["time"].split(":"); // Time of curr match
+    let hours2 = time_list[0];
+    let minute2 = time_list[1];
+    if (yyyy > yyyy2) {
+      next = temp;
+    } else if (yyyy == yyyy2) {
+      if (mm > mm2) {
+        next = temp;
+      } else if (mm == mm2) {
+        if (dd > dd2) {
+          next = temp;
+        } else if (dd == dd2) {
+          // The same date
+          if (hours > hours2) {
+            next = temp;
+          } else if (hours == hours2) {
+            // The same hours
+            if (minute > minute2) {
+              next = temp;
+            }
+          }
+        }
+      }
+    }
+  });
+  return next;
+}
+
 exports.getFutureGames = getFutureGames;
 exports.extractPastGamesData = extractPastGamesData;
 exports.getFavoritsGames = getFavoritsGames;
+exports.getNextGame = getNextGame;
