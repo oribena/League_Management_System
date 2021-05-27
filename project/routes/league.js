@@ -17,7 +17,7 @@ router.get("/getDetails", async (req, res, next) => {
   }
 });
 
-// Checks user permission
+// Checks user permission - Association Representative
 router.use("/", function (req, res, next) {
   DButils.execQuery("SELECT user_id FROM users")
     .then((users) => {
@@ -41,8 +41,14 @@ router.use("/", function (req, res, next) {
 router.post("/addMatch", async (req, res, next) => {
   try {
     // add the new match
-    await DButils.execQuery(
-      `INSERT INTO dbo.matches (date, time, hometeam, awayteam, stadium, result, referee) VALUES ('${req.body.date}','${req.body.time}','${req.body.hometeam}','${req.body.awayteam}', '${req.body.stadium}','${req.body.result}','${req.body.referee}')`
+    await league_utils.addMatch(
+      req.body.date,
+      req.body.time,
+      req.body.hometeam,
+      req.body.awayteam,
+      req.body.stadium,
+      req.body.result,
+      req.body.referee
     );
     res.status(201).send("Match created");
   } catch (error) {
@@ -50,12 +56,15 @@ router.post("/addMatch", async (req, res, next) => {
   }
 });
 
-// TODO: Checks user permission
 router.post("/addEvent", async (req, res, next) => {
   try {
     // add the new event
-    await DButils.execQuery(
-      `INSERT INTO dbo.eventbook (match_id, date, time, gamemin, event) VALUES ('${req.body.match_id}','${req.body.date}','${req.body.time}','${req.body.gamemin}','${req.body.event}')`
+    await league_utils.addEvent(
+      req.body.match_id,
+      req.body.date,
+      req.body.time,
+      req.body.gamemin,
+      req.body.event
     );
     res.status(201).send("Event created");
   } catch (error) {
@@ -63,24 +72,18 @@ router.post("/addEvent", async (req, res, next) => {
   }
 });
 
-// TODO: Checks user permission
 router.post("/addResult", async (req, res, next) => {
   try {
-    await DButils.execQuery(
-      `UPDATE dbo.matches SET result = '${req.body.result}' WHERE match_id = '${req.body.match_id}'`
-    );
+    await league_utils.addResult(req.body.match_id, req.body.result);
     res.status(201).send("Result updated");
   } catch (error) {
     next(error);
   }
 });
 
-// TODO: Checks user permission
 router.post("/addReferee", async (req, res, next) => {
   try {
-    await DButils.execQuery(
-      `UPDATE dbo.matches SET referee = '${req.body.referee_id}' WHERE match_id = '${req.body.match_id}'`
-    );
+    await league_utils.addReferee(req.body.referee_id, req.body.match_id);
     res.status(201).send("Referee updated");
   } catch (error) {
     next(error);

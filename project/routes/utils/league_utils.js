@@ -1,4 +1,5 @@
 const axios = require("axios");
+const DButils = require("./DButils");
 const LEAGUE_ID = 271;
 
 async function getLeagueDetails() {
@@ -23,7 +24,34 @@ async function getLeagueDetails() {
     league_name: league.data.data.name,
     current_season_name: league.data.data.season.data.name,
     current_stage_name: stage.data.data.name,
-    // next game details should come from DB
   };
 }
+
+async function addMatch(date, time, hometeam, awayteam, stadium) {
+  await DButils.execQuery(
+    `INSERT INTO dbo.matches (date, time, hometeam, awayteam, stadium) VALUES ('${date}','${time}','${hometeam}','${awayteam}', '${stadium}')`
+  );
+}
+
+async function addEvent(match_id, date, time, gamemin, event) {
+  await DButils.execQuery(
+    `INSERT INTO dbo.eventbook (match_id, date, time, gamemin, event) VALUES ('${match_id}','${date}','${time}','${gamemin}','${event}')`
+  );
+}
+
+async function addResult(match_id, result) {
+  await DButils.execQuery(
+    `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
+  );
+}
+
+async function addReferee(referee_id, match_id) {
+  await DButils.execQuery(
+    `UPDATE dbo.matches SET referee = '${referee_id}' WHERE match_id = '${match_id}'`
+  );
+}
 exports.getLeagueDetails = getLeagueDetails;
+exports.addReferee = addReferee;
+exports.addEvent = addEvent;
+exports.addMatch = addMatch;
+exports.addResult = addResult;
