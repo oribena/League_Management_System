@@ -1,20 +1,30 @@
 const axios = require("axios");
 
-// RETURN ONLY ONE TEAM
-// async function getTeamDetails(team_name) {
-//   const team = await axios.get(
-//     `https://soccer.sportmonks.com/api/v2.0/teams/search/${team_name}`,
-//     {
-//       params: {
-//         api_token: process.env.api_token,
-//       },
-//     }
-//   );
-//   return {
-//     team_name: team.data.data[0].name,
-//     team_logo: team.data.data[0].logo_path,
-//   };
-// }
+// RETURN ONLY ONE TEAM NAME
+async function getTeamName(team_id) {
+  const team = await axios.get(
+    `https://soccer.sportmonks.com/api/v2.0/teams/${team_id}`,
+    {
+      params: {
+        api_token: process.env.api_token,
+      },
+    }
+  );
+  return team.data.data.name;
+}
+
+// RETURN ONLY ONE TEAM VENUE
+async function getTeamVenue(team_name) {
+  const team = await axios.get(
+    `https://soccer.sportmonks.com/api/v2.0/teams/search/${team_name}include=venue`,
+    {
+      params: {
+        api_token: process.env.api_token,
+      },
+    }
+  );
+  return team.data.data[0].venue.name;
+}
 
 // RETURN ALL TEAMS
 async function getTeamDetails(team_name) {
@@ -45,3 +55,5 @@ function extractRelevantTeamData(teams_info) {
   }
 
 exports.getTeamDetails = getTeamDetails;
+exports.getTeamName = getTeamName;
+exports.getTeamVenue = getTeamVenue;
