@@ -1,5 +1,6 @@
 const axios = require("axios");
 const DButils = require("./DButils");
+const teams_utils = require("./teams_utils");
 const LEAGUE_ID = 271;
 
 async function getLeagueDetails() {
@@ -66,6 +67,40 @@ function create_league(league_name, league_teams, league_policy, team_assign) {
 
 }
 
+async function assignMatches(teams_ids, policy) {
+    let teams_names = [];
+    teams_ids.forEach((id) => {
+        let name = teams_utils.getTeamName(id);
+        teams_names.push(name);
+    });
+    let assign = [];
+    // Each pair of teams will play against each other only once.
+    if (policy == 1) {
+        for (let i = 0; i < teams_names.length - 1; i++) {
+            for (let j = i + 1; j < teams_names.length; j++) {
+                let venue = teams_utils.getTeamVenue(teams_names[i]);
+                assign.push(teams_names[i] + ' vs. ' + teams_names[j] + ' at ' + venue);
+            }
+        }
+    }
+    // Each pair of teams will play twice, each time on the home field of one of the teams.
+    else if (policy == 2) {
+        for (let i = 0; i < teams_names.length - 1; i++) {
+            for (let j = i + 1; j < teams_names.length; j++) {
+                let venue = teams_utils.getTeamVenue(teams_names[i]);
+                let venue2 = teams_utils.getTeamVenue(teams_names[j]);
+                assign.push(teams_names[i] + ' vs. ' + teams_names[j] + ' at ' + venue);
+                assign.push(teams_names[j] + ' vs. ' + teams_names[i] + ' at ' + venue2);
+            }
+        }
+    }
+    return assign;
+}
+
+async function createNewLeague(league_name) {
+    DButils.createLeague(league_name);
+}
+
 exports.getLeagueDetails = getLeagueDetails;
 exports.addReferee = addReferee;
 exports.addEvent = addEvent;
@@ -73,3 +108,5 @@ exports.addMatch = addMatch;
 exports.addResult = addResult;
 exports.setPermission = setPermission;
 exports.create_league = create_league;
+exports.assignMatches = assignMatches;
+exports.createNewLeague = createNewLeague;
