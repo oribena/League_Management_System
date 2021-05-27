@@ -14,3 +14,6 @@ VALUES
 	('Erez');
 
 -- DELETE FROM referee WHERE referee_id = 3;
+ALTER TABLE matches
+ADD CONSTRAINT refereeD
+DEFAULT 0 FOR referee;

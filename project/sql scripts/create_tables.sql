@@ -38,9 +38,17 @@
 -- 	FOREIGN KEY(match_id) REFERENCES matches(match_id)
 -- )
 
-CREATE TABLE [dbo].[favorits](
-	[favorite_id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[user_id] [int] NOT NULL,
-	[match_id] [int] NOT NULL,
-	FOREIGN KEY(match_id) REFERENCES matches(match_id)
+-- CREATE TABLE [dbo].[favorits](
+-- 	[favorite_id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+-- 	[user_id] [int] NOT NULL,
+-- 	[match_id] [int] NOT NULL,
+-- 	FOREIGN KEY(match_id) REFERENCES matches(match_id)
+-- )
+
+-- DROP TABLE [dbo].[referee];
+
+CREATE TABLE [dbo].[referee]
+(
+	[referee_id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[name] [varchar](300) NOT NULL,
 )

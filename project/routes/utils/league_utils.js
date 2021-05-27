@@ -50,8 +50,16 @@ async function addReferee(referee_id, match_id) {
     `UPDATE dbo.matches SET referee = '${referee_id}' WHERE match_id = '${match_id}'`
   );
 }
+
+async function setPermission(user_id, permission) {
+  await DButils.execQuery(
+    `UPDATE dbo.users SET permission = '${permission}' WHERE user_id = '${user_id}'`
+  );
+}
+
 exports.getLeagueDetails = getLeagueDetails;
 exports.addReferee = addReferee;
 exports.addEvent = addEvent;
 exports.addMatch = addMatch;
 exports.addResult = addResult;
+exports.setPermission = setPermission;
