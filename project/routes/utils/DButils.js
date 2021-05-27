@@ -26,6 +26,10 @@ exports.execQuery = async function (query) {
   }
 };
 
+async function createLeague(league_name) {
+  console.log("The " + league_name + " league succefully created!");
+}
+
 // process.on("SIGINT", function () {
 //   if (pool) {
 //     pool.close(() => console.log("connection pool closed"));
