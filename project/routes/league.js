@@ -90,4 +90,13 @@ router.post("/addReferee", async (req, res, next) => {
   }
 });
 
+router.post("/setPermission", async (req, res, next) => {
+  try {
+    await league_utils.setPermission(req.body.user_id, eq.body.permission);
+    res.status(201).send("Referee updated");
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
