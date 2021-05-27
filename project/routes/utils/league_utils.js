@@ -68,12 +68,17 @@ function createNewLeague(league_name, league_policy, team_assign) {
   };
 }
 
+// TODO!!!!!!!!!!!!!!!!!!!!
 async function assignMatches(teams_ids, policy) {
-  let teams_names = [];
-  teams_ids.forEach((id) => {
-    let name = teams_utils.getTeamName(id);
-    teams_names.push(name);
+  let result = [];
+  teams_ids.map((id) => {
+    result.push(teams_utils.getTeamName(id));
+    // console.log("name");
+    // console.log(name);
+    // teams_names.push(name);
   });
+  let teams_names = Promise.all(result);
+  console.log(teams_names);
   let assign = [];
   // Policy 1 - Each pair of teams will play against each other only once.
   if (policy == 1) {

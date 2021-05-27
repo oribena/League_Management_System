@@ -1,4 +1,4 @@
-require("dotenv").config({path: __dirname + '/../../.env' });
+require("dotenv").config({ path: __dirname + "/../../.env" });
 const sql = require("mssql");
 
 const config = {
@@ -8,8 +8,8 @@ const config = {
   database: process.env.tedious_database,
   options: {
     encrypt: true,
-    enableArithAbort: true
-  }
+    enableArithAbort: true,
+  },
 };
 
 const pool = new sql.ConnectionPool(config);
@@ -29,6 +29,7 @@ exports.execQuery = async function (query) {
 async function createLeague(league_name) {
   console.log("The " + league_name + " league was created succefully!");
 }
+exports.createLeague = createLeague;
 
 // process.on("SIGINT", function () {
 //   if (pool) {

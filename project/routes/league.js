@@ -107,7 +107,6 @@ router.post("/createLeague", async (req, res, next) => {
     );
     let new_league = league_utils.createNewLeague(
       req.body.name,
-      req.body.teams,
       req.body.policy,
       team_assign
     );
