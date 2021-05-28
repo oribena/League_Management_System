@@ -90,11 +90,13 @@ async function assignMatches(teams_ids, policy) {
   else if (policy == 2) {
     for (let i = 0; i < teams_names.length - 1; i++) {
       for (let j = i + 1; j < teams_names.length; j++) {
-        let venue = teams_utils.getTeamVenue(teams_names[i]);
-        let venue2 = teams_utils.getTeamVenue(teams_names[j]);
-        assign.push(teams_names[i] + " vs. " + teams_names[j] + " at " + venue);
+        let venue2 = await teams_utils.getTeamVenue(teams_ids[i]);
+        let venue3 = await teams_utils.getTeamVenue(teams_ids[j]);
         assign.push(
-          teams_names[j] + " vs. " + teams_names[i] + " at " + venue2
+          teams_names[i] + " vs. " + teams_names[j] + " at " + venue2
+        );
+        assign.push(
+          teams_names[j] + " vs. " + teams_names[i] + " at " + venue3
         );
       }
     }
