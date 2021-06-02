@@ -10,20 +10,19 @@ function hey() {
 test('initial_test', async() => {
     expect(hey()).toEqual(3)
 });
-test('setPermission', () => {
-
-});
 test('createNewLeague', () => {
 
 });
 test('assignMatches', () => {
     //check about stub
-
 });
 test('addReferee', () => {
 
 });
 test('addMatch', () => {
+
+});
+test('setPermission', () => {
 
 });
 

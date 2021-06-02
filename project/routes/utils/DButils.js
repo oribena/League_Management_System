@@ -25,8 +25,7 @@ async function disconnectDB() {
     pool.close()
 }
 
-
-
+connectDB()
 exports.execQuery = async function(query) {
     await poolConnect;
     try {
