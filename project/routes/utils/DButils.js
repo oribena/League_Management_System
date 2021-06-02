@@ -1,6 +1,10 @@
 require("dotenv").config({ path: __dirname + "/../../.env" });
 const sql = require("mssql");
 
+
+var pool;
+var poolConnect;
+
 const config = {
     user: process.env.tedious_userName,
     password: process.env.tedious_password,
@@ -12,8 +16,16 @@ const config = {
     },
 };
 
-const pool = new sql.ConnectionPool(config);
-const poolConnect = pool.connect();
+async function connectDB() {
+    pool = new sql.ConnectionPool(config);
+    poolConnect = pool.connect();
+}
+
+async function disconnectDB() {
+    pool.close()
+}
+
+
 
 exports.execQuery = async function(query) {
     await poolConnect;
@@ -30,6 +42,8 @@ function createLeague(league_name) {
     console.log("The " + league_name + " league was created succefully!");
 }
 exports.createLeague = createLeague;
+exports.connectDB = connectDB;
+exports.disconnectDB = disconnectDB;
 
 // process.on("SIGINT", function () {
 //   if (pool) {
