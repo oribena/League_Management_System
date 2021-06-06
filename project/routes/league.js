@@ -119,4 +119,27 @@ router.post("/createLeague", async (req, res, next) => {
   }
 });
 
+router.post("/addMatchToLeague", async (req, res, next) => {
+  try {
+    teams_ids = [293, 390, 939, 1020];
+    if (!teams_ids.includes(req.body.hometeam)) {
+      teams_ids.push(req.body.hometeam);
+    }
+    if (!teams_ids.includes(req.body.awayteam)) {
+      teams_ids.push(req.body.awayteam);
+    }
+    let new_teams_ids = [req.body.hometeam, req.body.awayteam];
+    let team_assign = await league_utils.assignMatches(teams_ids, 1);
+    let new_league = await league_utils.updateLeague(
+      new_teams_ids,
+      "HAPPY LEAGUE",
+      1,
+      team_assign
+    );
+    res.status(201).send(new_league);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

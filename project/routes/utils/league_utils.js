@@ -76,7 +76,26 @@ function createNewLeague(league_name, league_policy, team_assign) {
   };
 }
 
-// TODO!!!!!!!!!!!!!!!!!!!!
+async function updateLeague(
+  teams_ids,
+  league_name,
+  league_policy,
+  team_assign
+) {
+  let result = [];
+  teams_ids.map((id) => {
+    result.push(teams_utils.getTeamName(id));
+  });
+  let teams_names = await Promise.all(result);
+  DButils.updateLeague(teams_names);
+  return {
+    id: Math.floor(Math.random() * 400) + 1,
+    name: league_name,
+    policy: league_policy,
+    team_assign: team_assign,
+  };
+}
+
 async function assignMatches(teams_ids, policy) {
   let result = [];
   teams_ids.map((id) => {
@@ -119,3 +138,4 @@ exports.addResult = addResult;
 exports.setPermission = setPermission;
 exports.assignMatches = assignMatches;
 exports.createNewLeague = createNewLeague;
+exports.updateLeague = updateLeague;
