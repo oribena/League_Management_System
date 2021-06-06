@@ -186,6 +186,23 @@ paths:
                   $ref: "#/components/schemas/NewLeague"
         "400":
           description: wrong input parameters
+  /league/addMatchToLeague:
+    post:
+      tags:
+        - League
+      summary: Add new match to league
+      description: Add Match To League
+      responses:
+        "200":
+          description: Succesful added new match
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewMatch"
+        "400":
+          description: wrong input parameters
   /users/favoritematches:
     get:
       tags:
@@ -452,6 +469,22 @@ components:
           type: string
           description: Match referee
           example: Ori
+    NewMatch:
+      type: object
+      description: Model containing new match info
+      properties:
+        hometeam:
+          type: integer
+          description: Match home team id
+          example: 230
+        awayteam:
+          type: integer
+          description: Match away team id
+          example: 140
+        date:
+          type: string
+          description: Match date
+          example: 20/10/2021
     FutureMatch:
       type: object
       description: Model containing future match info
