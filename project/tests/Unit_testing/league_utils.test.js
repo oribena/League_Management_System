@@ -1,30 +1,74 @@
 const league_utils = require('../../routes/utils/league_utils');
 const DButils = require('../../routes/utils/DButils');
+const teams_utils = require('../../routes/utils/teams_utils');
 
 // jest.setTimeout(10000)
 
-function hey() {
-    return 1 + 2
-}
+//init stubs 
+const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
+const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
 
-test('initial_test', async() => {
-    expect(hey()).toEqual(3)
+// console.log(await league_utils.assignMatches([1, 2, 3], 2))
+
+test('spyOn getTeamVenue HaveBeenCalled', async() => {
+    await league_utils.assignMatches([1, 2, 3], 1)
+        // console.log(await league_utils.assignMatches([1, 2, 3], 2))
+        // console.log(await league_utils.assignMatches([], 1))
+    expect(spyTeamVenue).toHaveBeenCalled();
 });
+test('spyOn getTeamName HaveBeenCalled', () => {
+    expect(spyTeamName).toHaveBeenCalled();
+});
+let expected_1 = [
+    'MockTeam 1 vs. MockTeam 2 at MockVenue of team1',
+    'MockTeam 1 vs. MockTeam 3 at MockVenue of team1',
+    'MockTeam 2 vs. MockTeam 3 at MockVenue of team2'
+]
+let expected_2 = [
+    'MockTeam 1 vs. MockTeam 2 at MockVenue of team1',
+    'MockTeam 2 vs. MockTeam 1 at MockVenue of team2',
+    'MockTeam 1 vs. MockTeam 3 at MockVenue of team1',
+    'MockTeam 3 vs. MockTeam 1 at MockVenue of team3',
+    'MockTeam 2 vs. MockTeam 3 at MockVenue of team2',
+    'MockTeam 3 vs. MockTeam 2 at MockVenue of team3'
+]
+let expected_3 = []
+
+//positive tests
+test('positive test assignMatches policy 1', async() => {
+    expect(await league_utils.assignMatches([1, 2, 3], 1)).toEqual(expected_1)
+});
+test('positive test assignMatches policy 2', async() => {
+    expect(await league_utils.assignMatches([1, 2, 3], 2)).toEqual(expected_2)
+});
+test('positive test assignMatches empty list', async() => {
+    expect(await league_utils.assignMatches([], 1)).toEqual(expected_3)
+});
+test('negative test assignMatches repete team id', async() => { //not sure
+    expect(await league_utils.assignMatches([1, 1], 1)).toThrowError()
+})
+
 test('createNewLeague', () => {
-    //hey mor 
-});
-test('assignMatches', () => {
-    //check about stub
-});
-test('addReferee', () => {
+    let league_name = "happy league"
+    let league_policy = 1
+    let team_assign = ["team assign"]
+    let new_league = league_utils.createNewLeague(league_name, league_policy, team_assign)
+    expect(new_league).toHaveProperty("id")
+    expect(new_league).toHaveProperty("name")
+    expect(new_league).toHaveProperty("policy")
+    expect(new_league).toHaveProperty("team_assign")
 
 });
-test('addMatch', () => {
 
-});
-test('setPermission', () => {
+// test('addReferee', () => {
 
-});
+// });
+// test('addMatch', () => {
+
+// });
+// test('setPermission', () => {
+
+// });
 
 
 DButils.disconnectDB()
