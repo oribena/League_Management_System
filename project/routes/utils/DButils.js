@@ -1,7 +1,6 @@
 require("dotenv").config({ path: __dirname + "/../../.env" });
 const sql = require("mssql");
 
-
 var pool;
 var poolConnect;
 
@@ -22,8 +21,9 @@ async function connectDB() {
 }
 
 async function disconnectDB() {
-    pool.close()
+    pool.close();
 }
+
 
 // connectDB()
 exports.execQuery = async function(query) {
@@ -35,14 +35,26 @@ exports.execQuery = async function(query) {
         console.error("SQL error", err);
         throw err;
     }
+
 };
 
 function createLeague(league_name) {
     console.log("The " + league_name + " league was created succefully!");
 }
+
+function updateLeague(teams_name) {
+    console.log(
+        "The match between " +
+        teams_name[0] +
+        " and " +
+        teams_name[1] +
+        " was added succefully!"
+    );
+}
 exports.createLeague = createLeague;
 exports.connectDB = connectDB;
 exports.disconnectDB = disconnectDB;
+exports.updateLeague = updateLeague;
 
 // process.on("SIGINT", function () {
 //   if (pool) {
