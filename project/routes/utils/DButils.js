@@ -5,48 +5,51 @@ var pool;
 var poolConnect;
 
 const config = {
-  user: process.env.tedious_userName,
-  password: process.env.tedious_password,
-  server: process.env.tedious_server,
-  database: process.env.tedious_database,
-  options: {
-    encrypt: true,
-    enableArithAbort: true,
-  },
+    user: process.env.tedious_userName,
+    password: process.env.tedious_password,
+    server: process.env.tedious_server,
+    database: process.env.tedious_database,
+    options: {
+        encrypt: true,
+        enableArithAbort: true,
+    },
 };
 
 async function connectDB() {
-  pool = new sql.ConnectionPool(config);
-  poolConnect = pool.connect();
+    pool = new sql.ConnectionPool(config);
+    poolConnect = pool.connect();
 }
 
 async function disconnectDB() {
-  pool.close();
+    pool.close();
 }
 
-connectDB();
-exports.execQuery = async function (query) {
-  await poolConnect;
-  try {
-    var result = await pool.request().query(query);
-    return result.recordset;
-  } catch (err) {
-    console.error("SQL error", err);
-    throw err;
-  }
+
+// connectDB()
+exports.execQuery = async function(query) {
+    await poolConnect;
+    try {
+        var result = await pool.request().query(query);
+        return result.recordset;
+    } catch (err) {
+        console.error("SQL error", err);
+        throw err;
+    }
+
 };
 
 function createLeague(league_name) {
-  console.log("The " + league_name + " league was created succefully!");
+    console.log("The " + league_name + " league was created succefully!");
 }
+
 function updateLeague(teams_name) {
-  console.log(
-    "The match between " +
-      teams_name[0] +
-      " and " +
-      teams_name[1] +
-      " was added succefully!"
-  );
+    console.log(
+        "The match between " +
+        teams_name[0] +
+        " and " +
+        teams_name[1] +
+        " was added succefully!"
+    );
 }
 exports.createLeague = createLeague;
 exports.connectDB = connectDB;
