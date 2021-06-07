@@ -25,7 +25,7 @@ async function disconnectDB() {
 }
 
 
-// connectDB()
+connectDB()
 exports.execQuery = async function(query) {
     await poolConnect;
     try {
@@ -61,7 +61,7 @@ async function setUserPermission(user_id, permission) {
 
 async function getUserPermission(referee_id) {
     const permission = await exports.execQuery(
-      `SELECT permission FROM users WHERE user_id = '${referee_id}'`
+        `SELECT permission FROM users WHERE user_id = '${referee_id}'`
     );
     return permission;
 }
@@ -74,11 +74,11 @@ async function addRefereeToMatch(referee_id, match_id) {
 }
 
 async function setMatchResult(match_id, result) {
-  await exports.execQuery(
-    `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
-  );
-  // return true;
-  return;
+    await exports.execQuery(
+        `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
+    );
+    // return true;
+    return;
 }
 
 exports.createLeague = createLeague;
