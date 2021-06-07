@@ -2,23 +2,11 @@ const league_utils = require('../../routes/utils/league_utils');
 const DButils = require('../../routes/utils/DButils');
 const teams_utils = require('../../routes/utils/teams_utils');
 
-// jest.setTimeout(10000)
-
 //init stubs 
 const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
 const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
 
 // console.log(await league_utils.assignMatches([1, 2, 3], 2))
-
-test('spyOn getTeamVenue HaveBeenCalled', async() => {
-    await league_utils.assignMatches([1, 2, 3], 1)
-        // console.log(await league_utils.assignMatches([1, 2, 3], 2))
-        // console.log(await league_utils.assignMatches([], 1))
-    expect(spyTeamVenue).toHaveBeenCalled();
-});
-test('spyOn getTeamName HaveBeenCalled', () => {
-    expect(spyTeamName).toHaveBeenCalled();
-});
 let expected_1 = [
     'MockTeam 1 vs. MockTeam 2 at MockVenue of team1',
     'MockTeam 1 vs. MockTeam 3 at MockVenue of team1',
@@ -34,6 +22,16 @@ let expected_2 = [
 ]
 let expected_3 = []
 
+test('spyOn getTeamVenue HaveBeenCalled', async() => {
+    await league_utils.assignMatches([1, 2, 3], 1)
+        // console.log(await league_utils.assignMatches([1, 2, 3], 2))
+        // console.log(await league_utils.assignMatches([], 1))
+    expect(spyTeamVenue).toHaveBeenCalled();
+});
+test('spyOn getTeamName HaveBeenCalled', () => {
+    expect(spyTeamName).toHaveBeenCalled();
+
+});
 //positive tests
 test('positive test assignMatches policy 1', async() => {
     expect(await league_utils.assignMatches([1, 2, 3], 1)).toEqual(expected_1)
@@ -58,20 +56,42 @@ test('createNewLeague', () => {
     expect(new_league).toHaveProperty("policy")
     expect(new_league).toHaveProperty("team_assign")
 
+
 });
 
-// test('addReferee', () => {
+// --- Adding a referee to a particular game ---
+test('Add referee successfully', async() => {
+    expect(await league_utils.addReferee(2, 8)).toEqual("Referee updated") // no referee is assigned to the game
+});
 
+test('Add referee user not referee', async() => {
+    expect(await league_utils.addReferee(3, 8)).toEqual("The user is not a referee") // no referee is assigned to the game
+});
+
+// test('Add referee to match with referee', async() => {
+//     expect(await league_utils.addReferee()) // user that is a referee but referee already was assigned to the game
 // });
-// test('addMatch', () => {
 
-// });
-// test('setPermission', () => {
-
+// test('Add referee no such user id in DB', async() => {
+//     expect(await league_utils.addReferee())
 // });
 
+// test('Add referee that already assigned to another match', async() => {
+//     expect(await league_utils.addReferee()) 
+// });
 
-DButils.disconnectDB()
+// --- Setting user's permission ---
+test('setPermission', () => {
+});
+
+
+
+test('addMatch', () => {
+
+});
+
+
+// DButils.disconnectDB()
     //toBe
     //toBeCloseTo
     //toEqual
