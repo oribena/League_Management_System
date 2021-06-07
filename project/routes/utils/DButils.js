@@ -25,7 +25,7 @@ async function disconnectDB() {
 }
 
 
-// connectDB()
+connectDB()
 exports.execQuery = async function(query) {
     await poolConnect;
     try {
@@ -48,13 +48,26 @@ function updateLeague(teams_name) {
         teams_name[0] +
         " and " +
         teams_name[1] +
-        " was added succefully!"
+        " was added succefully!\n The policy is 1 so more matches might been added"
     );
 }
+
+async function setPermission(user_id, permission) {
+    try {
+        await exports.execQuery(
+            `UPDATE dbo.users SET permission = '${permission}' WHERE user_id = '${user_id}'`
+        );
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
 exports.createLeague = createLeague;
 exports.connectDB = connectDB;
 exports.disconnectDB = disconnectDB;
 exports.updateLeague = updateLeague;
+exports.setPermission = setPermission;
 
 // process.on("SIGINT", function () {
 //   if (pool) {
