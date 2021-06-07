@@ -1,75 +1,85 @@
-// const DButils = require('../../routes/utils/DButils');
+const DButils = require('../../routes/utils/DButils');
 const auth_utils = require('../../routes/utils/auth_utils');
 const bcrypt = require("bcryptjs");
 
 // jest.setTimeout(10000000000000000);
 // DButils.connectDB();
 
-test('positive test register', async () => {
-    const pass = 'noa12345'
-    const hashedPass = bcrypt.hashSync(pass, parseInt(process.env.bcrypt_saltRounds));
-    const user = [{
-        username: 'noak',
-        firstname: 'noa',
-        lastname: 'kila',
-        country: 'Israel',
-        password: `${hashedPass}`,
-        email: 'nk@post.bgu.ac.il',
-        profilePic: 'https://cloudinary.com/NK'
-    }]
-    register(
-        user.username,
-        user.firstname,
-        user.lastname,
-        user.country,
-        user.password,
-        user.email,
-        user.profilePic
-    )
-    const expectedUser = await DButils.execQuery(
-        `SELECT username, password, firstname, lastname, country, email, profilePic FROM dbo.users WHERE username = '${user.username}'`
-    );
-    expect(expectedUser).toEqual(user);
+// userExists
 
+test('positive test userExists', async () => {
+    expect(await auth_utils.userExists("jlo")).toBeTruthy();
+});
+
+test('negative test userExists', async () => {
+    expect(await auth_utils.userExists("j")).toBeFalsy();
+});
+
+test('negative test userExists', async () => {
+    expect(await auth_utils.userExists("")).toBeFalsy();
+});
+
+test('positive test register', async () => {
+    // const user = [{
+    //     username: 'noak',
+    //     firstname: 'noa',
+    //     lastname: 'kila',
+    //     country: 'Israel',
+    //     password: 'noa12345',
+    //     email: 'nk@post.bgu.ac.il',
+    //     profilePic: 'https://cloudinary.com/NK'
+    // }]
+    expect(await auth_utils.register(
+        'noakilaa',
+        'noa',
+        'kila',
+        'Israel',
+        'noa12345',
+        'nk@post.bgu.ac.il',
+        'https://cloudinary.com/NK'
+    )).toBeTruthy();
 });
 
 test('negative test register username exists', async () => {
-    const user = [{
-        username: 'jlo',
-        firstname: 'noa',
-        lastname: 'kila',
-        country: 'Israel',
-        password: 'noa12345',
-        email: 'nk@post.bgu.ac.il',
-        profilePic: 'https://cloudinary.com/NK'
-    }]
+    // const user = [{
+    //     username: 'jlo',
+    //     firstname: 'noa',
+    //     lastname: 'kila',
+    //     country: 'Israel',
+    //     password: 'noa12345',
+    //     email: 'nk@post.bgu.ac.il',
+    //     profilePic: 'https://cloudinary.com/NK'
+    // }]
     expect(await auth_utils.register(
-        user.username,
-        user.firstname,
-        user.lastname,
-        user.country,
-        user.password,
-        user.email,
-        user.profilePic
-    )).toThrowError(ErrorMessageToken);
+        'jlo',
+        'noa',
+        'kila',
+        'Israel',
+        'noa12345',
+        'nk@post.bgu.ac.il',
+        'https://cloudinary.com/NK'
+    )).toBeFalsy();
 });
-
 
 test('positive test login', async () => {
     const username = "jlo";
-    const loginResult = await auth_utils.login(username);
-    console.log(loginResult);
-    expect(loginResult.username).toEqual(username);
-    expect(loginResult.password).toBeTruthy();
+    const password = "I<3JLO";
+    expect(await auth_utils.login(username, password)).toBeTruthy();
 });
 
 test('negative test login username doesnt exist', async () => {
-    const username = "noaa";
-    const loginResult = await auth_utils.login(username);
-    expect(loginResult).toBeFalsy();
+    const username = "j";
+    const password = "I<3JLO";
+    expect(await auth_utils.login(username, password)).toBeNull();
 });
 
-DButils.disconnectDB();
+test('negative test login password incorrect', async () => {
+    const username = "jlo";
+    const password = "123";
+    expect(await auth_utils.login(username, password)).toBeNull();
+});
+
+// DButils.disconnectDB();
 
 
 

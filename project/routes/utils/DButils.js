@@ -25,8 +25,8 @@ async function disconnectDB() {
 }
 
 
-// connectDB()
-exports.execQuery = async function(query) {
+connectDB()
+exports.execQuery = async function (query) {
     await poolConnect;
     try {
         var result = await pool.request().query(query);
@@ -61,7 +61,7 @@ async function setUserPermission(user_id, permission) {
 
 async function getUserPermission(referee_id) {
     const permission = await exports.execQuery(
-      `SELECT permission FROM users WHERE user_id = '${referee_id}'`
+        `SELECT permission FROM users WHERE user_id = '${referee_id}'`
     );
     return permission;
 }
@@ -74,11 +74,39 @@ async function addRefereeToMatch(referee_id, match_id) {
 }
 
 async function setMatchResult(match_id, result) {
-  await exports.execQuery(
-    `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
-  );
-  // return true;
-  return;
+    await exports.execQuery(
+        `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
+    );
+    // return true;
+    return;
+}
+
+async function getAllUsers() {
+    let res = await exports.execQuery("SELECT username FROM dbo.users");
+    return res;
+}
+
+async function register(
+    username,
+    firstname,
+    lastname,
+    country,
+    password,
+    email,
+    profilePic
+) {
+    await exports.execQuery(
+        `INSERT INTO dbo.users (username, firstname, lastname, country, password, email, profilePic) VALUES ('${username}','${firstname}','${lastname}','${country}', '${password}','${email}','${profilePic}')`
+    );
+}
+
+async function findUser(username) {
+    let res = (
+        await exports.execQuery(
+            `SELECT * FROM dbo.users WHERE username = '${username}'`
+        )
+    )[0];
+    return res;
 }
 
 exports.createLeague = createLeague;
@@ -89,6 +117,11 @@ exports.getUserPermission = getUserPermission;
 exports.addRefereeToMatch = addRefereeToMatch;
 exports.setUserPermission = setUserPermission;
 exports.setMatchResult = setMatchResult;
+exports.getAllUsers = getAllUsers;
+exports.register = register;
+exports.findUser = findUser;
+
+
 
 
 // process.on("SIGINT", function () {
