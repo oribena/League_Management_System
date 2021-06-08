@@ -6,7 +6,7 @@ const api_domain = "http://localhost:3000";
 
 axiosCookieJarSupport(axios)
 
-test('positive test login', async () => {
+test('Acceptance Test - login succeed', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -27,7 +27,7 @@ test('positive test login', async () => {
     }
 })
 
-test('negative test login username doesnt exist', async () => {
+test('Acceptance Test - login faild - username doesnt exist', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -56,7 +56,7 @@ test('negative test login username doesnt exist', async () => {
     }
 })
 
-test('negative test login password incorrect', async () => {
+test('Acceptance Test - login faild - password incorrect', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -86,7 +86,7 @@ test('negative test login password incorrect', async () => {
 })
 
 
-test('negative test login username doesnt exist and password incorrect', async () => {
+test('Acceptance Test - login faild - username doesnt exist and password incorrect', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
