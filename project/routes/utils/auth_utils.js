@@ -19,16 +19,12 @@ async function register(
   email,
   profilePic
 ) {
-
   //hash the password
   console.log(password);
   let hash_password = bcrypt.hashSync(
     password,
     parseInt(process.env.bcrypt_saltRounds)
   );
-
-  // req.body.password = hash_password;
-
   try {
     await DButils.register(
       username,
@@ -43,7 +39,6 @@ async function register(
   } catch (error) {
     return false;
   }
-
 }
 
 async function login(username, password) {
