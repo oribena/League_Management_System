@@ -26,7 +26,7 @@ async function disconnectDB() {
 
 
 connectDB()
-exports.execQuery = async function (query) {
+exports.execQuery = async function(query) {
     await poolConnect;
     try {
         var result = await pool.request().query(query);
@@ -53,10 +53,13 @@ function updateLeague(teams_name) {
 }
 
 async function setUserPermission(user_id, permission) {
-    await exports.execQuery(
-        `UPDATE dbo.users SET permission = '${permission}' WHERE user_id = '${user_id}'`
-    );
-    return;
+    try {
+        await exports.execQuery(
+            `UPDATE dbo.users SET permission = '${permission}' WHERE user_id = '${user_id}'`
+        );
+        return true
+    } catch (err) { return false }
+
 }
 
 async function getUserPermission(referee_id) {

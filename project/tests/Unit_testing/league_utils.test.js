@@ -1,10 +1,10 @@
 const league_utils = require('../../routes/utils/league_utils');
-const DButils = require('../../routes/utils/DButils');
 const teams_utils = require('../../routes/utils/teams_utils');
 
 //init stubs 
 const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
 const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
+
 
 // console.log(await league_utils.assignMatches([1, 2, 3], 2))
 let expected_1 = [
@@ -43,7 +43,9 @@ test('positive test assignMatches empty list', async() => {
     expect(await league_utils.assignMatches([], 1)).toEqual(expected_3)
 });
 test('negative test assignMatches repete team id', async() => { //not sure
-    expect(await league_utils.assignMatches([1, 1], 1)).toThrowError()
+    // let tested = await league_utils.assignMatches([1, 1], 1);
+    expect(await league_utils.assignMatches([1, 1], 1)).toBeNull()
+
 })
 
 test('createNewLeague', () => {
@@ -55,9 +57,10 @@ test('createNewLeague', () => {
     expect(new_league).toHaveProperty("name")
     expect(new_league).toHaveProperty("policy")
     expect(new_league).toHaveProperty("team_assign")
-
-
 });
+
+
+
 
 // --- Adding a referee to a particular game ---
 test('Add referee successfully', async() => {
@@ -81,21 +84,33 @@ test('Add referee user not referee', async() => {
 // });
 
 // --- Setting user's permission ---
-test('setPermission', () => {
+
+test('Positive test setPermission', async() => {
+    expect(await league_utils.setPermission(5, 2)).toBe(true)
+});
+test('Negative test setPermission todo!!', async() => { //to add 
+    expect(true).toBe(true)
+        // expect(await league_utils.setPermission(5, 2)).toBe(true)
 });
 
 
-
-test('addMatch', () => {
-
+test('positive updateLeague', async() => {
+    let league_name = "happy league"
+    let teams_ids = [293, 390, 939, 1020, 211]
+    let league_policy = 1
+    let team_assign = ["team assign"]
+    let new_league = await league_utils.updateLeague(teams_ids, league_name, league_policy, team_assign)
+    expect(new_league).toHaveProperty("id")
+    expect(new_league).toHaveProperty("name")
+    expect(new_league).toHaveProperty("policy")
+    expect(new_league).toHaveProperty("team_assign")
 });
-
 
 // DButils.disconnectDB()
-    //toBe
-    //toBeCloseTo
-    //toEqual
-    //toStrictEqual
-    //toHaveProperty
-    //toMatchSnapshot
-    //toThrowError
+//toBe
+//toBeCloseTo
+//toEqual
+//toStrictEqual
+//toHaveProperty
+//toMatchSnapshot
+//toThrowError
