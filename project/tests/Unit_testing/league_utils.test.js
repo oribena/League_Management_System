@@ -1,14 +1,9 @@
 const league_utils = require('../../routes/utils/league_utils');
-const DButils = require('../../routes/utils/DButils');
 const teams_utils = require('../../routes/utils/teams_utils');
 
 //init stubs 
 const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
 const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
-
-
-
-
 
 
 // console.log(await league_utils.assignMatches([1, 2, 3], 2))
@@ -64,6 +59,9 @@ test('createNewLeague', () => {
     expect(new_league).toHaveProperty("team_assign")
 });
 
+
+
+
 // --- Adding a referee to a particular game ---
 test('Add referee successfully', async() => {
     expect(await league_utils.addReferee(2, 8)).toEqual("Referee updated") // no referee is assigned to the game
@@ -86,6 +84,7 @@ test('Add referee user not referee', async() => {
 // });
 
 // --- Setting user's permission ---
+
 test('Positive test setPermission', async() => {
     expect(await league_utils.setPermission(5, 2)).toBe(true)
 });

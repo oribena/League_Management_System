@@ -59,8 +59,9 @@ async function addReferee(referee_id, match_id) {
 }
 
 async function setPermission(user_id, permission) {
-    is_set = DButils.setPermission(user_id, permission)
+    is_set = await DButils.setUserPermission(user_id, permission)
     return is_set
+
 }
 
 function createNewLeague(league_name, league_policy, team_assign) {
@@ -137,4 +138,21 @@ exports.addResult = addResult;
 exports.setPermission = setPermission;
 exports.assignMatches = assignMatches;
 exports.createNewLeague = createNewLeague;
+
 exports.updateLeague = updateLeague;
+
+
+// OLD ADD REFEREE
+// async function addReferee(referee_id, match_id) {
+//   const permission = await DButils.execQuery(
+//     `SELECT permission FROM users WHERE user_id = '${referee_id}'`
+//   );
+//   if (permission[0]["permission"] == 2) {
+//     await DButils.execQuery(
+//       `UPDATE dbo.matches SET referee = '${referee_id}' WHERE match_id = '${match_id}'`
+//     );
+//     return "Referee updated";
+//   } else {
+//     return "The user is not a referee";
+//   }
+// }

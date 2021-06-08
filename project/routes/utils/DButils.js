@@ -48,26 +48,84 @@ function updateLeague(teams_name) {
         teams_name[0] +
         " and " +
         teams_name[1] +
-        " was added succefully!\n The policy is 1 so more matches might been added"
+        " was added succefully!"
     );
 }
 
-async function setPermission(user_id, permission) {
+async function setUserPermission(user_id, permission) {
     try {
         await exports.execQuery(
             `UPDATE dbo.users SET permission = '${permission}' WHERE user_id = '${user_id}'`
         );
         return true
-    } catch (error) {
-        return false
-    }
+    } catch (err) { return false }
+
+}
+
+async function getUserPermission(referee_id) {
+    const permission = await exports.execQuery(
+        `SELECT permission FROM users WHERE user_id = '${referee_id}'`
+    );
+    return permission;
+}
+
+async function addRefereeToMatch(referee_id, match_id) {
+    await exports.execQuery(
+        `UPDATE dbo.matches SET referee = '${referee_id}' WHERE match_id = '${match_id}'`
+    );
+    return;
+}
+
+async function setMatchResult(match_id, result) {
+    await exports.execQuery(
+        `UPDATE dbo.matches SET result = '${result}' WHERE match_id = '${match_id}'`
+    );
+    // return true;
+    return;
+}
+
+async function getAllUsers() {
+    let res = await exports.execQuery("SELECT username FROM dbo.users");
+    return res;
+}
+
+async function register(
+    username,
+    firstname,
+    lastname,
+    country,
+    password,
+    email,
+    profilePic
+) {
+    await exports.execQuery(
+        `INSERT INTO dbo.users (username, firstname, lastname, country, password, email, profilePic) VALUES ('${username}','${firstname}','${lastname}','${country}', '${password}','${email}','${profilePic}')`
+    );
+}
+
+async function findUser(username) {
+    let res = (
+        await exports.execQuery(
+            `SELECT * FROM dbo.users WHERE username = '${username}'`
+        )
+    )[0];
+    return res;
 }
 
 exports.createLeague = createLeague;
 exports.connectDB = connectDB;
 exports.disconnectDB = disconnectDB;
 exports.updateLeague = updateLeague;
-exports.setPermission = setPermission;
+exports.getUserPermission = getUserPermission;
+exports.addRefereeToMatch = addRefereeToMatch;
+exports.setUserPermission = setUserPermission;
+exports.setMatchResult = setMatchResult;
+exports.getAllUsers = getAllUsers;
+exports.register = register;
+exports.findUser = findUser;
+
+
+
 
 // process.on("SIGINT", function () {
 //   if (pool) {
