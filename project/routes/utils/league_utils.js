@@ -103,18 +103,8 @@ async function assignMatches(teams_ids, policy) {
     });
     let teams_names = await Promise.all(result);
     let assign = [];
-    // Policy 1 - Each pair of teams will play against each other only once.
-    if (policy === 1) {
-        for (let i = 0; i < teams_names.length - 1; i++) {
-            for (let j = i + 1; j < teams_names.length; j++) {
-                let venue = await teams_utils.getTeamVenue(teams_ids[i]);
-                // console.log(venue);
-                assign.push(teams_names[i] + " vs. " + teams_names[j] + " at " + venue);
-            }
-        }
-    }
     // Policy 2 - Each pair of teams will play twice, each time on the home field of one of the teams.
-    else if (policy == 2) {
+    if (policy == 2) {
         for (let i = 0; i < teams_names.length - 1; i++) {
             for (let j = i + 1; j < teams_names.length; j++) {
                 let venue2 = await teams_utils.getTeamVenue(teams_ids[i]);
@@ -127,7 +117,17 @@ async function assignMatches(teams_ids, policy) {
                 );
             }
         }
+    } // Policy 1 - Each pair of teams will play against each other only once. 
+    else {
+        for (let i = 0; i < teams_names.length - 1; i++) {
+            for (let j = i + 1; j < teams_names.length; j++) {
+                let venue = await teams_utils.getTeamVenue(teams_ids[i]);
+                // console.log(venue);
+                assign.push(teams_names[i] + " vs. " + teams_names[j] + " at " + venue);
+            }
+        }
     }
+
     return assign;
 }
 exports.getLeagueDetails = getLeagueDetails;
