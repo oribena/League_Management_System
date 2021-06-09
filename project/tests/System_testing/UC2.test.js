@@ -6,23 +6,7 @@ const tough = require('tough-cookie');
 jest.setTimeout(100000)
 axiosCookieJarSupport(axios)
 
-// async function login() {
-//     const cookieJar = new tough.CookieJar();
-//     const request = axios.create({
-//         jar: cookieJar,
-//         withCredentials: true
-//     })
-//     const login = await request.post(
-//         "http://localhost:3000/Login", {
-//             username: "BigBoss",
-//             password: "1234"
-//         }
-//     );
-// }
-// beforeEach(async() => {
-//     return login();
-// });
-test('Acceptance Test - create league policy 1', async() => {
+test('Acceptance Test - create league policy 1', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -31,9 +15,9 @@ test('Acceptance Test - create league policy 1', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
             name: "HAPPY_LEAGUE",
@@ -47,7 +31,7 @@ test('Acceptance Test - create league policy 1', async() => {
     }
 })
 
-test('Acceptance Test - create league policy 2', async() => {
+test('Acceptance Test - create league policy 2', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -56,9 +40,9 @@ test('Acceptance Test - create league policy 2', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
             name: "HAPPY_LEAGUE",
@@ -71,7 +55,7 @@ test('Acceptance Test - create league policy 2', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - create league invalid policy', async() => {
+test('Acceptance Test - create league invalid policy', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -80,9 +64,9 @@ test('Acceptance Test - create league invalid policy', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
             name: "HAPPY_LEAGUE",
@@ -95,7 +79,7 @@ test('Acceptance Test - create league invalid policy', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - create league empty team array', async() => {
+test('Acceptance Test - create league empty team array', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -104,9 +88,9 @@ test('Acceptance Test - create league empty team array', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
             name: "HAPPY_LEAGUE",
@@ -125,7 +109,7 @@ test('Acceptance Test - create league empty team array', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - add Match ', async() => {
+test('Acceptance Test - add Match ', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -134,9 +118,9 @@ test('Acceptance Test - add Match ', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
 
         const match = await request.post("http://localhost:3000/league/addMatchToLeague", {
@@ -149,7 +133,7 @@ test('Acceptance Test - add Match ', async() => {
     }
 })
 
-test('Acceptance Test - add Match with team already in league', async() => {
+test('Acceptance Test - add Match with team already in league', async () => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -158,17 +142,17 @@ test('Acceptance Test - add Match with team already in league', async() => {
         })
         const login = await request.post(
             "http://localhost:3000/Login", {
-                username: "BigBoss",
-                password: "1234"
-            }
+            username: "BigBoss",
+            password: "1234"
+        }
         );
 
         const league = await request.post("http://localhost:3000/league/addMatchToLeague", {
-                hometeam: 1020,
-                awayteam: 213,
+            hometeam: 1020,
+            awayteam: 213,
 
-            })
-            // console.log(league.data.team_assign)
+        })
+        // console.log(league.data.team_assign)
         expect(league.status).toEqual(201)
 
     } catch (e) {

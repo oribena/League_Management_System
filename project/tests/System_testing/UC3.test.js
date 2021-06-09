@@ -3,7 +3,6 @@ const { test, expect } = require('@jest/globals')
 const setup = require("../setupTests")
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
-
 axiosCookieJarSupport(axios)
 
 test('Acceptance Test - login succeed', async () => {
