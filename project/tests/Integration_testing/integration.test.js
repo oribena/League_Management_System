@@ -1,5 +1,6 @@
 const league_utils = require('../../routes/utils/league_utils');
 const { test, expect } = require('@jest/globals')
+const setup = require("../setupTests")
 jest.setTimeout(1000000)
 let expected_1 = [
     'Brøndby vs. SønderjyskE at Brøndby Stadion',
@@ -26,21 +27,21 @@ let expected_2 = [
 let expected_3 = []
 
 //positive tests
-test('positive test assignMatches policy 1', async() => {
+test('positive test assignMatches policy 1', async () => {
     expect(await league_utils.assignMatches([293, 390, 939, 1020], 1)).toEqual(expected_1)
 });
-test('positive test assignMatches policy 2', async() => {
+test('positive test assignMatches policy 2', async () => {
     expect(await league_utils.assignMatches([293, 390, 939, 1020], 2)).toEqual(expected_2)
 });
-test('positive test assignMatches empty list', async() => {
+test('positive test assignMatches empty list', async () => {
     expect(await league_utils.assignMatches([], 1)).toEqual(expected_3)
 });
-test('negative test assignMatches repete team id', async() => { //not sure
+test('negative test assignMatches repete team id', async () => { //not sure
     // let tested = await league_utils.assignMatches([1, 1], 1);
     expect(await league_utils.assignMatches([390, 390], 1)).toBeNull()
 
 })
-test('positive updateLeague', async() => {
+test('positive updateLeague', async () => {
     let league_name = "happy league"
     let teams_ids = [293, 390, 939, 1020, 211]
     let league_policy = 1

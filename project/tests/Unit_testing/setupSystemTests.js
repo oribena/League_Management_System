@@ -11,3 +11,13 @@ global.afterAll(async () => {
     server_utils.closeServer()
     // await DButils.disconnectDB()
 })
+
+global.beforeUC(async () => {
+    server_utils.openServer()
+    // await DButils.connectDB()
+})
+
+global.afterUC(async () => {
+    server_utils.closeServer()
+    // await DButils.disconnectDB()
+})
