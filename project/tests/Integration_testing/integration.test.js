@@ -1,5 +1,5 @@
 const league_utils = require('../../routes/utils/league_utils');
-const DButils = require('../../routes/utils/DButils');
+const { test, expect } = require('@jest/globals')
 jest.setTimeout(1000000)
 let expected_1 = [
     'Brøndby vs. SønderjyskE at Brøndby Stadion',

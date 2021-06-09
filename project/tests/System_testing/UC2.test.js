@@ -1,11 +1,27 @@
 const axios = require("axios");
 const { test, expect } = require('@jest/globals')
+const setup = require("../setupTests")
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
-const api_domain = "http://localhost:3000";
-jest.setTimeout(1000000)
+jest.setTimeout(100000)
 axiosCookieJarSupport(axios)
 
+// async function login() {
+//     const cookieJar = new tough.CookieJar();
+//     const request = axios.create({
+//         jar: cookieJar,
+//         withCredentials: true
+//     })
+//     const login = await request.post(
+//         "http://localhost:3000/Login", {
+//             username: "BigBoss",
+//             password: "1234"
+//         }
+//     );
+// }
+// beforeEach(async() => {
+//     return login();
+// });
 test('Acceptance Test - create league policy 1', async() => {
     try {
         const cookieJar = new tough.CookieJar();
@@ -148,11 +164,11 @@ test('Acceptance Test - add Match with team already in league', async() => {
         );
 
         const league = await request.post("http://localhost:3000/league/addMatchToLeague", {
-            hometeam: 1020,
-            awayteam: 213,
+                hometeam: 1020,
+                awayteam: 213,
 
-        })
-        console.log(league.data.team_assign)
+            })
+            // console.log(league.data.team_assign)
         expect(league.status).toEqual(201)
 
     } catch (e) {

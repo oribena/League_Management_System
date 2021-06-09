@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { test, expect } = require('@jest/globals')
+const setup = require("../setupTests")
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
 axiosCookieJarSupport(axios)
@@ -18,7 +19,7 @@ axiosCookieJarSupport(axios)
 
 // addReferee
 
-test('Acceptance Test - add Referee', async () => {
+test('Acceptance Test - add Referee', async() => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -27,16 +28,14 @@ test('Acceptance Test - add Referee', async () => {
         })
 
         await request.post(
-            "http://localhost:3000/Login",
-            {
+            "http://localhost:3000/Login", {
                 username: "BigBoss",
                 password: "1234"
             }
         );
 
         const addReferee = await request.put(
-            "http://localhost:3000/league/addReferee",
-            {
+            "http://localhost:3000/league/addReferee", {
                 match_id: 12,
                 referee_id: 1
             }
@@ -50,7 +49,7 @@ test('Acceptance Test - add Referee', async () => {
 
 //setPermission
 
-test('Acceptance Test - set Permission', async () => {
+test('Acceptance Test - set Permission', async() => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -59,16 +58,14 @@ test('Acceptance Test - set Permission', async () => {
         })
 
         await request.post(
-            "http://localhost:3000/Login",
-            {
+            "http://localhost:3000/Login", {
                 username: "BigBoss",
                 password: "1234"
             }
         );
 
         const setPermission = await request.post(
-            "http://localhost:3000/league/setPermission",
-            {
+            "http://localhost:3000/league/setPermission", {
                 user_id: 1,
                 permission: 2
             }

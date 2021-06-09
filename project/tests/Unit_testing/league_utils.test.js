@@ -1,7 +1,7 @@
 const league_utils = require('../../routes/utils/league_utils');
 const teams_utils = require('../../routes/utils/teams_utils');
-
-//init stubs 
+const { test, expect } = require('@jest/globals')
+    //init stubs 
 const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
 const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
 
@@ -88,10 +88,7 @@ test('Add referee user not referee', async() => {
 test('Positive test setPermission', async() => {
     expect(await league_utils.setPermission(5, 2)).toBe(true)
 });
-test('Negative test setPermission todo!!', async() => { //to add 
-    expect(true).toBe(true)
-        // expect(await league_utils.setPermission(5, 2)).toBe(true)
-});
+
 
 
 test('positive updateLeague', async() => {
