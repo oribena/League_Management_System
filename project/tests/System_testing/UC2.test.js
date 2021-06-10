@@ -59,7 +59,7 @@ test('Acceptance Test - create league policy 2', async() => {
     }
 })
 
-test('Acceptance Test - create league invalid policy', async() => {
+test('Acceptance Test - create league duplicate teams', async() => {
 
     try {
         const cookieJar = new tough.CookieJar();

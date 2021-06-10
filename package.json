@@ -4,7 +4,7 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "test": "jest --maxWorkers 1"
+        "test": "jest --coverage --maxWorkers 1"
     },
     "repository": {
         "type": "git",

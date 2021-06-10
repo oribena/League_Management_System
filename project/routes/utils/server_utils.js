@@ -52,8 +52,8 @@ const auth = require("../auth");
 const users = require("../users");
 const league = require("../league");
 const teams = require("../teams");
-const players = require("../players");
-const matches = require("../matches");
+// const players = require("../players");
+// const matches = require("../matches");
 
 
 //#endregion
@@ -82,8 +82,8 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 app.use("/users", users);
 app.use("/league", league);
 app.use("/teams", teams);
-app.use("/players", players);
-app.use("/matches", matches);
+// app.use("/players", players);
+// app.use("/matches", matches);
 app.use(auth);
 
 
