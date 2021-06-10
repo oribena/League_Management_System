@@ -25,8 +25,6 @@ let expected_3 = []
 
 test('spyOn getTeamVenue HaveBeenCalled', async() => {
     await league_utils.assignMatches([1, 2, 3], 1)
-        // console.log(await league_utils.assignMatches([1, 2, 3], 2))
-        // console.log(await league_utils.assignMatches([], 1))
     expect(spyTeamVenue).toHaveBeenCalled();
 });
 test('spyOn getTeamName HaveBeenCalled', () => {
@@ -76,18 +74,6 @@ test('Add referee user not referee', async() => {
     expect(await league_utils.addReferee(3, 8)).toEqual("The user is not a referee") // no referee is assigned to the game
 });
 
-// test('Add referee to match with referee', async() => {
-//     expect(await league_utils.addReferee()) // user that is a referee but referee already was assigned to the game
-// });
-
-// test('Add referee no such user id in DB', async() => {
-//     expect(await league_utils.addReferee())
-// });
-
-// test('Add referee that already assigned to another match', async() => {
-//     expect(await league_utils.addReferee()) 
-// });
-
 // --- Setting user's permission ---
 
 test('Positive test setPermission', async() => {
@@ -107,12 +93,3 @@ test('positive updateLeague', async() => {
     expect(new_league).toHaveProperty("policy")
     expect(new_league).toHaveProperty("team_assign")
 });
-
-// DButils.disconnectDB()
-//toBe
-//toBeCloseTo
-//toEqual
-//toStrictEqual
-//toHaveProperty
-//toMatchSnapshot
-//toThrowError

@@ -56,7 +56,7 @@ test('Acceptance Test - create league policy 2', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - create league policy not exists ', async() => {
+test('Acceptance Test - create league duplicate team id ', async() => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -70,15 +70,14 @@ test('Acceptance Test - create league policy not exists ', async() => {
             }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
-                name: "HAPPY_LEAGUE",
-                teams: [293, 293],
-                policy: 1
+            name: "HAPPY_LEAGUE",
+            teams: [293, 293],
+            policy: 1
 
-            })
-            // expect(create_league.status).toEqual(500)
+        })
     } catch (e) {
         expect(e.response.status).toEqual(401)
-            // throw (e)
+
     }
 })
 test('Acceptance Test - create league empty team array', async() => {
@@ -126,8 +125,8 @@ test('Acceptance Test - add Match ', async() => {
         );
 
         const match = await request.post("http://localhost:3000/league/addMatchToLeague", {
-            hometeam: 390,
-            awayteam: 213
+            hometeam: 3000,
+            awayteam: 25
         })
         expect(match.status).toEqual(201)
     } catch (e) {
@@ -150,11 +149,10 @@ test('Acceptance Test - add Match with team already in league', async() => {
         );
 
         const league = await request.post("http://localhost:3000/league/addMatchToLeague", {
-                hometeam: 1020,
-                awayteam: 213,
+            hometeam: 1020,
+            awayteam: 213,
 
-            })
-            // console.log(league.data.team_assign)
+        })
         expect(league.status).toEqual(201)
 
     } catch (e) {
