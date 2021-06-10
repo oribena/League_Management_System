@@ -6,18 +6,18 @@ const LEAGUE_ID = 271;
 async function getLeagueDetails() {
     const league = await axios.get(
         `https://soccer.sportmonks.com/api/v2.0/leagues/${LEAGUE_ID}`, {
-            params: {
-                include: "season",
-                api_token: process.env.api_token,
-            },
-        }
+        params: {
+            include: "season",
+            api_token: process.env.api_token,
+        },
+    }
     );
     const stage = await axios.get(
         `https://soccer.sportmonks.com/api/v2.0/stages/${league.data.data.current_stage_id}`, {
-            params: {
-                api_token: process.env.api_token,
-            },
-        }
+        params: {
+            api_token: process.env.api_token,
+        },
+    }
     );
     return {
         league_name: league.data.data.name,
@@ -138,21 +138,4 @@ exports.addResult = addResult;
 exports.setPermission = setPermission;
 exports.assignMatches = assignMatches;
 exports.createNewLeague = createNewLeague;
-
 exports.updateLeague = updateLeague;
-
-
-// OLD ADD REFEREE
-// async function addReferee(referee_id, match_id) {
-//   const permission = await DButils.execQuery(
-//     `SELECT permission FROM users WHERE user_id = '${referee_id}'`
-//   );
-//   if (permission[0]["permission"] == 2) {
-//     await DButils.execQuery(
-//       `UPDATE dbo.matches SET referee = '${referee_id}' WHERE match_id = '${match_id}'`
-//     );
-//     return "Referee updated";
-//   } else {
-//     return "The user is not a referee";
-//   }
-// }

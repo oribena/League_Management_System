@@ -6,7 +6,9 @@ const tough = require('tough-cookie');
 axiosCookieJarSupport(axios)
 
 // addReferee
+
 test('Acceptance Test - add Referee', async() => {
+
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({

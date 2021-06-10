@@ -7,7 +7,9 @@ jest.setTimeout(100000)
 axiosCookieJarSupport(axios)
 
 
+
 test('Acceptance Test - create league policy 1', async() => {
+
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -56,7 +58,9 @@ test('Acceptance Test - create league policy 2', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - create league duplicate team id ', async() => {
+
+test('Acceptance Test - create league invalid policy', async() => {
+
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
