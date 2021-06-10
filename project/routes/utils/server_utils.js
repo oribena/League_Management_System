@@ -54,7 +54,7 @@ const league = require("../league");
 const teams = require("../teams");
 const players = require("../players");
 const matches = require("../matches");
-const { log } = require("console");
+
 
 //#endregion
 
@@ -87,7 +87,7 @@ app.use("/matches", matches);
 app.use(auth);
 
 app.use(function(err, req, res, next) {
-    console.error(err);
+    // console.error(err);
     res.status(err.status || 500).send(err.message);
 });
 var server;

@@ -6,22 +6,7 @@ const tough = require('tough-cookie');
 jest.setTimeout(100000)
 axiosCookieJarSupport(axios)
 
-// async function login() {
-//     const cookieJar = new tough.CookieJar();
-//     const request = axios.create({
-//         jar: cookieJar,
-//         withCredentials: true
-//     })
-//     const login = await request.post(
-//         "http://localhost:3000/Login", {
-//             username: "BigBoss",
-//             password: "1234"
-//         }
-//     );
-// }
-// beforeEach(async() => {
-//     return login();
-// });
+
 test('Acceptance Test - create league policy 1', async() => {
     try {
         const cookieJar = new tough.CookieJar();
@@ -71,7 +56,7 @@ test('Acceptance Test - create league policy 2', async() => {
         throw (e)
     }
 })
-test('Acceptance Test - create league invalid policy', async() => {
+test('Acceptance Test - create league policy not exists ', async() => {
     try {
         const cookieJar = new tough.CookieJar();
         const request = axios.create({
@@ -85,14 +70,15 @@ test('Acceptance Test - create league invalid policy', async() => {
             }
         );
         const create_league = await request.post("http://localhost:3000/league/createLeague", {
-            name: "HAPPY_LEAGUE",
-            teams: [293, 390, 939, 1020],
-            policy: 3
+                name: "HAPPY_LEAGUE",
+                teams: [293, 293],
+                policy: 1
 
-        })
-        expect(create_league.status).toEqual(201)
+            })
+            // expect(create_league.status).toEqual(500)
     } catch (e) {
-        throw (e)
+        expect(e.response.status).toEqual(401)
+            // throw (e)
     }
 })
 test('Acceptance Test - create league empty team array', async() => {

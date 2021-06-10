@@ -115,7 +115,8 @@ router.post("/createLeague", async(req, res, next) => {
         );
         res.status(201).send(new_league);
     } catch (error) {
-        next(error);
+        res.status(401).send("invalid parameters")
+            // next(error);
     }
 });
 

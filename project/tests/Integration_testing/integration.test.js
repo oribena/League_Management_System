@@ -28,18 +28,20 @@ let expected_3 = []
 
 //positive tests
 test('positive test assignMatches policy 1', async() => {
-    expect(await (await league_utils.assignMatches([293, 390, 939, 1020], 1)).length).toEqual(expected_1.length)
+    expect((await league_utils.assignMatches([293, 390, 939, 1020], 1)).length).toEqual(expected_1.length)
 });
 test('positive test assignMatches policy 2', async() => {
-    expect(await (await league_utils.assignMatches([293, 390, 939, 1020], 2)).length).toEqual(expected_2.length)
+    expect((await league_utils.assignMatches([293, 390, 939, 1020], 2)).length).toEqual(expected_2.length)
 });
 test('positive test assignMatches empty list', async() => {
-    expect(await (await league_utils.assignMatches([], 1)).length).toEqual(expected_3.length)
+    expect((await league_utils.assignMatches([], 1)).length).toEqual(expected_3.length)
 });
-test('negative test assignMatches repete team id', async() => { //not sure
-    // let tested = await league_utils.assignMatches([1, 1], 1);
-    expect(await league_utils.assignMatches([390, 390], 1)).toBeNull()
-
+test('negative test assignMatches repete team id', async() => {
+    try {
+        await league_utils.assignMatches([390, 390], 1)
+    } catch (err) {
+        expect(err).toEqual("invalid parameters")
+    }
 })
 test('positive updateLeague', async() => {
     let league_name = "happy league"

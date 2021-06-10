@@ -5,20 +5,7 @@ const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
 axiosCookieJarSupport(axios)
 
-// async function before_UC_test() {
-//     jest.setTimeout(1000000)
-//     axiosCookieJarSupport(axios)
-//     await request.post(
-//         "http://localhost:3000/Login", {
-//             username: "BigBoss",
-//             password: "1234"
-//         }
-//     );
-// }
-
-
 // addReferee
-
 test('Acceptance Test - add Referee', async() => {
     try {
         const cookieJar = new tough.CookieJar();

@@ -1,6 +1,7 @@
 const league_utils = require('../../routes/utils/league_utils');
 const teams_utils = require('../../routes/utils/teams_utils');
 const { test, expect } = require('@jest/globals')
+const setup = require("../setupTests")
     //init stubs 
 const spyTeamName = jest.spyOn(teams_utils, 'getTeamName').mockImplementation((team_id) => "MockTeam " + team_id)
 const spyTeamVenue = jest.spyOn(teams_utils, 'getTeamVenue').mockImplementation((team_name) => "MockVenue of team" + team_name)
@@ -42,9 +43,13 @@ test('positive test assignMatches policy 2', async() => {
 test('positive test assignMatches empty list', async() => {
     expect(await league_utils.assignMatches([], 1)).toEqual(expected_3)
 });
-test('negative test assignMatches repete team id', async() => { //not sure
-    // let tested = await league_utils.assignMatches([1, 1], 1);
-    expect(await league_utils.assignMatches([1, 1], 1)).toBeNull()
+test('negative test assignMatches repete team id', async() => {
+    try {
+        await league_utils.assignMatches([1, 1], 1)
+    } catch (err) {
+        expect(err).toEqual("invalid parameters")
+    }
+
 
 })
 

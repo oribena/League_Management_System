@@ -96,7 +96,7 @@ async function updateLeague(
 
 async function assignMatches(teams_ids, policy) {
     let team_id_asSet = new Set(teams_ids)
-    if (team_id_asSet.size != teams_ids.length) { return null }
+    if (team_id_asSet.size != teams_ids.length) { throw "invalid parameters" }
     let result = [];
     teams_ids.map((id) => {
         result.push(teams_utils.getTeamName(id));

@@ -60,7 +60,7 @@ const { log } = require("console");
 //#endregion
 
 //#region cookie middleware
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     if (req.session && req.session.user_id) {
         DButils.execQuery("SELECT user_id FROM users")
             .then((users) => {
@@ -76,7 +76,7 @@ app.use(function (req, res, next) {
 });
 //#endregion
 DButils.connectDB()
-// ----> For cheking that our server is alive
+    // ----> For cheking that our server is alive
 app.get("/alive", (req, res) => res.send("I'm alive"));
 
 // Routings
@@ -87,7 +87,7 @@ app.use("/players", players);
 app.use("/matches", matches);
 app.use(auth);
 
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     console.error(err);
     res.status(err.status || 500).send(err.message);
 });
